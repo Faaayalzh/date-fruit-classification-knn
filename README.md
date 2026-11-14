@@ -44,6 +44,13 @@ Use a CNN or transfer learning (pretrained image models) instead of raw-pixel KN
 1. Open the notebook on Kaggle and attach the SODA Challenge dataset.
 2. Run all cells. Paths in the notebook point to `/kaggle/input/competitions/soda-challenge/...`.
 
+## Future Work
+- Use a CNN or transfer learning with a pretrained image model, instead of raw-pixel KNN
+- Add data augmentation (flips, rotations, brightness changes)
+- Try richer features (color histograms, HOG) and tune `k` and the distance metric
+- Use cross-validation for more reliable evaluation
+
+  
 ## Tools Used
 Python, pandas, NumPy, scikit-learn, OpenCV, seaborn, Matplotlib, Kaggle
 
