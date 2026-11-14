@@ -1,65 +1,52 @@
-# 🌴 SODA Challenge: Saudi Date Variety Classification
+# Date Fruit Classification (SODA Challenge)
 
-An end-to-end Machine Learning pipeline developed for classifying 13 distinct Saudi date varieties using computer vision and machine learning algorithms. Built as part of the Machine Learning course at Umm Al-Qura University.
+A machine learning project that classifies Saudi date varieties from images, built for the SODA Challenge (CCWin Challenges Series 1, College of Computing, Umm Al-Qura University) on Kaggle.
 
-> Group project for the Machine Learning course, Data Science Department, Umm Al-Qura University (2026).
+> Final project for the Machine Learning for Data Science course, Data Science Department, Umm Al-Qura University.
 
----
+## Dataset
+- Source: [SODA Challenge on Kaggle](https://www.kaggle.com/competitions/soda-challenge/overview). The data is not included in this repo.
+- 1,829 training images, 13 balanced classes (about 140 images each), and 784 test images.
+- CSV files with two columns: `id` (image filename) and `label` (class number).
 
-## 📌 Project at a Glance
-
-| Element | Value / Count |
-|---------|---------------|
-| **Dataset** | SODA Challenge Dataset (Kaggle) |
-| **Total Images** | 2,613 images (1,829 train, 784 test) |
-| **Classes** | 13 balanced date varieties[cite: 2] |
-| **Model** | K-Nearest Neighbors ($k=3$)[cite: 2] |
-| **Baseline Accuracy** | **31.97%** (~4x higher than random guessing at 7.7%)[cite: 2] |
-| **Evaluation Metrics** | Accuracy, Precision, Recall, F1-Score, Confusion Matrix[cite: 2] |
-
----
-
-## 🛠️ What Was Built
-
-| Task | Details |
+## Method
+| Step | Details |
 |------|---------|
-| **Exploratory Data Analysis (EDA)** | Inspected class balance (~140 images per class), image resolutions, and verified zero missing/corrupted image paths[cite: 2]. |
-| **Data Preprocessing & Normalization** | Loaded images via OpenCV, converted BGR to RGB, resized to $64 \times 64 \times 3$, and normalized pixel values to $[0, 1]$[cite: 2]. |
-| **Feature Extraction (Baseline)** | Flattened 3D image arrays into 1D feature vectors of size **12,288** features per image[cite: 2]. |
-| **Data Splitting** | Applied 80/20 Stratified Train/Validation split (1,463 training samples, 366 validation samples)[cite: 2]. |
-| **Model Training** | Trained a K-Nearest Neighbors classifier ($k=3$, Euclidean Distance) to establish a baseline model[cite: 2]. |
-| **Performance Evaluation** | Generated a detailed classification report and confusion matrix to identify misclassified classes[cite: 2]. |
-| **Kaggle Submission** | Generated `submission.csv` mapping test predictions to date class labels[cite: 2]. |
+| Data checks | No missing values; all image files exist; no corrupted images found |
+| EDA | Class distribution plot: the 13 classes are almost perfectly balanced, so no resampling was needed |
+| Preprocessing (OpenCV) | Resized to 64×64, normalized pixel values (0 to 1), flattened into 12,288 features |
+| Split | 80% training / 20% validation, stratified, `random_state=42` |
+| Model | K-Nearest Neighbors (k = 3, Euclidean distance) |
+| Submission | Predictions for the test images saved as `submission.csv` and submitted to Kaggle |
 
----
+## Results
+| Metric | Value |
+|--------|-------|
+| Validation accuracy | 31.97% |
+| Random-guess baseline | 7.7% (1 of 13 classes) |
+| Macro F1-score | 0.30 |
+| Weighted F1-score | 0.30 |
 
-## ⚠️ Challenges & Technical Discussion
+![Confusion Matrix](confusion-matrix.png)
 
-### 1. Low Baseline Accuracy (~31.97%)
-While 31.97% is low for production, it is expected and mathematically justified for a baseline model:
-- **Raw Pixel Limitations:** KNN calculates simple Euclidean distances between flattened pixel vectors. It cannot capture spatial hierarchies, textures, or shapes[cite: 2].
-- **Fine-Grained Classification:** Saudi date varieties share highly similar physical features (color and shape overlaps), which simple distance metrics struggle to separate[cite: 2].
+- The model is about 4 times better than random guessing, but still weak.
+- Some varieties are often confused with each other (for example classes 3 and 4, and classes 9 and 10).
+- Class 1 had the highest recall (0.68) and class 10 was the hardest.
+- KNN on raw pixels is limited for visually similar varieties.
 
-### 2. Proposed Future Improvements
-To reach production-level accuracy (>85%), future iterations should implement:
-- **Feature Engineering:** Apply PCA (Principal Component Analysis) or HOG (Histogram of Oriented Gradients).
-- **Deep Learning (CNNs):** Train a Convolutional Neural Network to extract spatial features automatically.
-- **Transfer Learning:** Fine-tune pre-trained vision models such as **ResNet-50** or **MobileNetV2**.
+## Future Work
+Use a CNN or transfer learning (pretrained image models) instead of raw-pixel KNN.
 
----
+## Files
+- `soda_challenge_knn.ipynb`: full notebook (written for Kaggle)
 
-## 📁 Files
+## How to Run
+1. Open the notebook on Kaggle and attach the SODA Challenge dataset.
+2. Run all cells. Paths in the notebook point to `/kaggle/input/competitions/soda-challenge/...`.
 
-- `notebooks/SODA_Date_Classification.ipynb`: Jupyter notebook containing the complete machine learning pipeline[cite: 2].
-- `src/main.py`: Modular Python script for automated preprocessing, training, and evaluation[cite: 2].
-- `submission.csv`: Kaggle competition prediction results[cite: 2].
-- `requirements.txt`: Python package dependencies[cite: 2].
+## Tools Used
+Python, pandas, NumPy, scikit-learn, OpenCV, seaborn, Matplotlib, Kaggle
 
----
-
-## 🚀 How to Run
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/YOUR_USERNAME/SODA-Date-Variety-Classification.git](https://github.com/YOUR_USERNAME/SODA-Date-Variety-Classification.git)
-   cd SODA-Date-Variety-Classification
+## Team
+- Fay Salman Alzahrany
+- Linda Almajnooni
